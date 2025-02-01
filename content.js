@@ -45,7 +45,7 @@ const wellnessMessages = [
   }
   
   // Show reminder every 10 minutes
-  setInterval(showReminder, 10 * 60 * 1000);
+  setInterval(showReminder, 5000);
 
   //function to show encouragement
   function showEncouragement() {
@@ -80,3 +80,103 @@ const wellnessMessages = [
   
   // Show every hour
   setInterval(showEncouragement, 5000);
+
+// Function to check if the user is on YouTube
+// Store reference to the mascot bubble and last checked video title
+let mascotBubble = null;
+let lastCheckedTitle = "";
+
+// Function to get the YouTube video title correctly
+function getYouTubeVideoTitle() {
+    let titleElement = document.querySelector("#title h1 yt-formatted-string"); // Updated selector
+    if (!titleElement) {
+        console.error("Could not find video title.");
+        return null; // Return empty if title isn't found
+    }
+    console.log("Current Video Title:", titleElement.innerText);
+    return titleElement.innerText.toLowerCase();
+}
+
+// Function to check if the video is related to the user's task
+function isVideoRelated(task) {
+    const videoTitle = getYouTubeVideoTitle();
+    if (!videoTitle) return false;
+
+    const taskLower = task.toLowerCase();
+    const isRelated = videoTitle.includes(taskLower);
+    console.log(`Checking video: "${videoTitle}" | Task: "${task}" | Related: ${isRelated ? "✅ Yes" : "❌ No"}`);
+    return isRelated;
+}
+
+// Function to pause video and show mascot reminder
+function showFocusReminder(task) {
+    let video = document.querySelector("video");
+    if (video) {
+        video.pause(); // Pause the video
+    }
+
+    console.log(`Mascot Reminder: Video doesn't match task "${task}"`);
+
+    // Remove any existing bubble before adding a new one
+    if (mascotBubble) {
+        mascotBubble.remove();
+    }
+
+    // Create a mascot speech bubble
+    mascotBubble = document.createElement("div");
+    mascotBubble.className = "mascot-bubble";
+    mascotBubble.innerText = `Are you sure?? 🤨 Don't lose focus on "${task}"!`;
+
+    document.body.appendChild(mascotBubble);
+    
+    setTimeout(() => {
+        if (mascotBubble) mascotBubble.remove();
+    }, 5000);
+}
+
+// Function to remove the mascot reminder if user is back on task
+function removeFocusReminder() {
+    if (mascotBubble) {
+        mascotBubble.remove();
+        mascotBubble = null;
+    }
+}
+
+// Function to monitor YouTube videos
+function monitorYouTube() {
+    chrome.storage.local.get("task", (data) => {
+        let task = data.task || "";
+        if (!task) return;
+
+        console.log("User Task:", task);
+        console.log("Checking video relevance...");
+
+        let videoPlayer = document.querySelector("video");
+        let videoTitle = getYouTubeVideoTitle();
+
+        if (!videoTitle || videoTitle === lastCheckedTitle) {
+            return; // Avoid unnecessary checks if title hasn't changed
+        }
+
+        lastCheckedTitle = videoTitle; // Update last checked title
+
+        if (!isVideoRelated(task)) {
+            console.warn("❌ Unrelated video detected. Pausing...");
+            showFocusReminder(task);
+            if (videoPlayer && !videoPlayer.paused) {
+                videoPlayer.pause();
+            }
+        } else {
+            console.log("✅ Related video. Removing reminder.");
+            removeFocusReminder();
+            if (videoPlayer && videoPlayer.paused) {
+                videoPlayer.play(); // Resume video if it was paused
+            }
+        }
+    });
+}
+
+// Run the check on YouTube every 5 seconds
+if (window.location.hostname.includes("youtube.com")) {
+    setInterval(monitorYouTube, 5000);
+}
