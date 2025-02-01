@@ -23,7 +23,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["images/ghosty.png"],
+      "resources": ["icons/ghosty.png"],
       "matches": ["<all_urls>"]
     }
   ],
