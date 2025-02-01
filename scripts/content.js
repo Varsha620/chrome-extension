@@ -1,5 +1,5 @@
 chrome.storage.local.get(["mascot"], (data) => {
-    const mascotEmoji = data.mascot || "🐻";
+    const mascotEmoji = data.mascot || "🦉";
     
     // Inject Mascot
     const mascot = document.createElement("div");
