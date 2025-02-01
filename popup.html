@@ -1,21 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>Mascot Reminder</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Mascot Task</title>
+  <style>
+    body { width: 200px; padding: 10px; }
+    input, button { width: 100%; margin-top: 5px; }
+  </style>
 </head>
 <body>
-  <h2>What's your task?</h2>
-  <input type="text" id="taskInput" placeholder="Enter your task...">
+  <input type="text" id="task" placeholder="Enter your task...">
   <button id="saveTask">Save Task</button>
-  
-  <h3>Choose Your Mascot</h3>
-  <select id="mascotSelect">
-    <option value="Meditating.png">🐻 Bear</option>
-    <option value="Coffee.png">🐱 Cat</option>
-    <option value="In The Air.png">🐧 Penguin</option>
-  </select>
-  
-  <script src="scripts/popup.js"></script>
+  <p id="taskDisplay"></p>
+  <script src="popup.js"></script>
 </body>
 </html>

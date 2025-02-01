@@ -1,30 +1,34 @@
 {
-    "manifest_version": 3,
-    "name": "Mascot Wellness & Focus Reminder",
-    "version": "1.0",
-    "description": "An adorable mascot gives wellness reminders and helps you stay focused.",
-    "icons": {
-      "128": "icons/mascot.png"
-    },
-    "permissions": [
-      "storage",
-      "activeTab",
-      "tabs"
-    ],
-    "host_permissions": ["*://*.youtube.com/*"],
-    "background": {
-      "service_worker": "scripts/background.js"
-    },
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": "icons/mascot.png"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["scripts/content.js"],
-        "css": ["styles.css"]
-      }
-    ]
+  "manifest_version": 3,
+  "name": "Mascot Reminder",
+  "version": "1.0",
+  "description": "A mascot that keeps you on track!",
+  "icons": {
+    "16": "icons/ghosty.png",
+    "48": "icons/ghosty.png",
+    "128": "icons/ghosty.png"
+  },
+  "permissions": ["storage", "activeTab", "scripting","tabs"],
+  "host_permissions": ["<all_urls>"], 
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],  
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/ghosty.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/ghosty.png"
   }
-  
+}
