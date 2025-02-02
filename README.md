@@ -65,11 +65,9 @@ For Software:
 *Freezing the screen with grayscale for abou 15s with warnings*
 
 ![Screenshot encouragements](https://github.com/user-attachments/assets/c4c24573-0fa5-443f-a1e4-7859d8e16079)
-hot2]
 *Frequent Encouragements given for task provided*
 
 ![Screenshot warning](https://github.com/user-attachments/assets/091f19fe-04a6-407e-aceb-d18f42876a16)
-enshot3](Add screenshot 3 here with proper name)
 *Every 3rd warning when an off-topic video is opened, provides with a choice to "disable warning" or "continue with the warnings"*
 
 # Diagrams
