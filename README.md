@@ -11,18 +11,18 @@
 The project mainly focuses on productivity and wellness. 
 
 ### The Problem statement
-The major problem faced:__
--Mindless surfing or screen time__
--Burning out__
+The major problem faced:<br/>
+-Mindless surfing or screen time<br/>
+-Burning out<br/>
 -Distractions(especially while watching youtube tutorials)
 
 ### The Solution
-**Introducing the mascots**:The mascots are there when you need them. They come up with:__
--Infinite wellness reminders(per hr)__
--Motivate you and keep up your spirit to complete the task(every 30 min)__
--Stops you from doom-scrolling through youtube video when you have a task to complete__
-    -Freezes the page for 15sec and sent warning msgs.__
-    -Every third warning providing choice to "disable warnings" and "keep reminding".
+**Introducing the mascots**:The mascots are there when you need them. They come up with:<br/>
+-Infinite wellness reminders(per hr)<br/>
+-Motivate you and keep up your spirit to complete the task(every 30 min)<br/>
+-Stops you from doom-scrolling through youtube video when you have a task to complete<br/>
+    -Freezes the page for 15sec and sent warning msgs.<br/>
+    -Every third warning providing choice to "disable warnings" and "keep reminding".<br/>
 
 ## Technical Details
 ### Technologies/Components Used
