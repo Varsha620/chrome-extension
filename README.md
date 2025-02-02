@@ -37,16 +37,19 @@ For Software:
 For Software:
 # Installation
 1.Clone the Repository:
+
     ```bash
     git clone https://github.com/your-username/mascot-reminder.git
     cd mascot-reminder
 
 2.Load the Extension in Chrome:
+
     -Open Chrome and go to chrome://extensions/.
     -Enable Developer mode (toggle in the top right corner).
     -Click Load unpacked and select the mascot-reminder directory.
 
 3.Set Your Task:
+
     -Click on the extension icon in the Chrome toolbar.
     -Enter your task in the input field and click Save Task.
 
