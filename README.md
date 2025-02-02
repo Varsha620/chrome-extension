@@ -21,8 +21,8 @@ The major problem faced:<br/>
 -Infinite wellness reminders(per hr)<br/>
 -Motivate you and keep up your spirit to complete the task(every 30 min)<br/>
 -Stops you from doom-scrolling through youtube video when you have a task to complete<br/>
-    -Freezes the page for 15sec and sent warning msgs.<br/>
-    -Every third warning providing choice to "disable warnings" and "keep reminding".<br/>
+&nbsp;-Freezes the page for 15sec and sent warning msgs.<br/>
+&nbsp;-Every third warning providing choice to "disable warnings" and "keep reminding".<br/>
 
 ## Technical Details
 ### Technologies/Components Used
