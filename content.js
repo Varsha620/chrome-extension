@@ -86,151 +86,167 @@ const wellnessMessages = [
 let mascotBubble = null;
 let videoOverlay = null;
 let lastCheckedTitle = "";
-let warningInterval = null; // Stores the interval for rotating warnings
-let warningIndex = 0; // Tracks the current warning message
+let warningInterval = null;
+let warningIndex = 0;
+let warningCount = 0;
 
-// List of different mascot warnings
+// List of mascot warnings
 const warningMessages = [
     "Nuhh uhhh! Focus Buddy 🫡",
     "Hey! This isn't part of your goal! 🤨",
     "Stay on track! Don't let distractions win! 🚀",
-    "Remember your task! You can do it! 💪",
-    "Time to refocus! Get back to learning! 🎯"
+    "Third warning! ❌ Click below to disable or continue."
 ];
+
+// Function to reset warnings when a new task is set
+function resetWarnings() {
+    chrome.storage.local.set({ disableWarnings: false });
+    warningCount = 0;
+}
 
 // Function to check if a YouTube ad is playing
 function isAdPlaying() {
-    let adIndicator = document.querySelector(".ytp-ad-text"); // Checks for "Ad" label
-    let skipButton = document.querySelector(".ytp-ad-skip-button"); // Checks for "Skip Ad" button
-    return adIndicator || skipButton; // If either exists, it's an ad
+    return document.querySelector(".ytp-ad-text") || document.querySelector(".ytp-ad-skip-button");
 }
 
 // Function to get the YouTube video title correctly
 function getYouTubeVideoTitle() {
-    if (isAdPlaying()) {
-        console.log("Ignoring ad...");
-        return null; // If it's an ad, ignore it
-    }
-
-    let titleElement = document.querySelector("#title h1 yt-formatted-string"); // Updated selector
-    if (!titleElement) {
-        console.error("Could not find video title.");
-        return null; // Return empty if title isn't found
-    }
-    console.log("Current Video Title:", titleElement.innerText);
-    return titleElement.innerText.toLowerCase();
+    if (isAdPlaying()) return null;
+    let titleElement = document.querySelector("#title h1 yt-formatted-string");
+    return titleElement ? titleElement.innerText.toLowerCase() : null;
 }
 
 // Function to check if the video is related to the user's task
 function isVideoRelated(task) {
     const videoTitle = getYouTubeVideoTitle();
-    if (!videoTitle) return false;
-
-    const taskLower = task.toLowerCase();
-    const isRelated = videoTitle.includes(taskLower);
-    console.log(`Checking video: "${videoTitle}" | Task: "${task}" | Related: ${isRelated ? "✅ Yes" : "❌ No"}`);
-    return isRelated;
+    return videoTitle ? videoTitle.includes(task.toLowerCase()) : false;
 }
 
-// Function to show a mascot warning bubble with grey overlay (pauses video)
-function showFocusReminder(task) {
-    let video = document.querySelector("video");
-    if (video) {
-        video.pause(); // Pause the video
-    }
-
-    console.log(`Mascot Reminder: Video doesn't match task "${task}"`);
-
-    // Remove any existing bubble before adding a new one
-    if (mascotBubble) {
-        mascotBubble.remove();
-    }
-
-    // Create or update the grey overlay on video
-    if (!videoOverlay) {
-        videoOverlay = document.createElement("div");
-        videoOverlay.id = "video-overlay";
-        videoOverlay.style.position = "fixed";
-        videoOverlay.style.top = "0";
-        videoOverlay.style.left = "0";
-        videoOverlay.style.width = "100%";
-        videoOverlay.style.height = "100%";
-        videoOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // Semi-transparent grey overlay
-        videoOverlay.style.zIndex = "9998"; // Just below mascot
-        document.body.appendChild(videoOverlay);
-    }
-
-    // Create a mascot speech bubble
+// Function to show the third warning bubble
+function showThirdWarningBubble() {
     mascotBubble = document.createElement("div");
     mascotBubble.className = "mascot-bubble";
-    mascotBubble.innerText = warningMessages[warningIndex]; // Show first message initially
-    warningIndex = (warningIndex + 1) % warningMessages.length; // Cycle through messages
+    mascotBubble.innerHTML = `
+        <p>⚠️ This is your third Warning! ❌Choose wisely!!</p>
+        <button id="disableWarnings" class="bubble-button">Disable Further Warnings</button>
+        <button id="continueWarnings" class="bubble-button">Continue Reminders</button>
+    `;
 
     document.body.appendChild(mascotBubble);
 
-    // Hide the reminder and overlay after 5 seconds and resume video
-    setTimeout(() => {
-        if (mascotBubble) {
-            mascotBubble.remove();
-            mascotBubble = null;
-        }
-        if (videoOverlay) {
-            videoOverlay.remove();
-            videoOverlay = null;
-        }
-    }, 5000);
-}
-
-// Function to start warning reminders every minute (pauses video each time)
-function startWarningInterval(task) {
-    clearInterval(warningInterval); // Clear any previous interval
-    showFocusReminder(task); // Show the first reminder immediately
-
-    warningInterval = setInterval(() => {
-        showFocusReminder(task);
-    }, 30000); // Show new reminder every 30 seconds
-}
-
-// Function to remove the mascot reminder, overlay, and stop warnings
-function removeFocusReminder() {
-    if (mascotBubble) {
+    document.getElementById("disableWarnings").addEventListener("click", () => {
+        chrome.storage.local.set({ disableWarnings: true });
         mascotBubble.remove();
-        mascotBubble = null;
-    }
+        removeFocusReminder();
+    });
+
+    document.getElementById("continueWarnings").addEventListener("click", () => {
+        chrome.storage.local.set({ disableWarnings: false });
+        warningCount = 0; // Reset count so third warning repeats every 3 warnings
+        mascotBubble.remove();
+    });
+}
+
+// Function to show warning messages (pauses video)
+function showFocusReminder(task) {
+    let video = document.querySelector("video");
+    if (video) video.pause();
+
+    if (mascotBubble) mascotBubble.remove();
+
+    // 🛠️ Always recreate the overlay
     if (videoOverlay) {
         videoOverlay.remove();
-        videoOverlay = null;
     }
-    clearInterval(warningInterval); // Stop rotating messages when user is back on track
+    videoOverlay = document.createElement("div");
+    videoOverlay.id = "video-overlay";
+    videoOverlay.style.position = "fixed";
+    videoOverlay.style.top = "0";
+    videoOverlay.style.left = "0";
+    videoOverlay.style.width = "100%";
+    videoOverlay.style.height = "100%";
+    videoOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    videoOverlay.style.zIndex = "9998";
+    document.body.appendChild(videoOverlay);
+
+    // 🛠️ Ensure the third warning shows the option bubble
+    if ((warningCount + 1) % 3 === 0) {
+        showThirdWarningBubble();
+    } else {
+        mascotBubble = document.createElement("div");
+        mascotBubble.className = "mascot-bubble";
+        mascotBubble.innerText = warningMessages[warningIndex];
+        document.body.appendChild(mascotBubble);
+        warningIndex = (warningIndex + 1) % (warningMessages.length - 1);
+    }
+
+    warningCount++;
+
+    // Hide the reminder and overlay after 15 seconds
+    setTimeout(() => {
+        if (mascotBubble) mascotBubble.remove();
+        if (videoOverlay) videoOverlay.remove(); // 🛠️ Ensure overlay is removed
+    }, 15000);
 }
 
-// Function to monitor YouTube videos
+
+// Function to start warning reminders every 20 seconds
+function startWarningInterval(task) {
+    chrome.storage.local.get("disableWarnings", (data) => {
+        if (data.disableWarnings) return;
+
+        clearInterval(warningInterval);
+        showFocusReminder(task);
+
+        warningInterval = setInterval(() => {
+            showFocusReminder(task);
+        }, 20000);
+    });
+}
+
+// Function to remove warnings & overlays when user returns to related content
+function removeFocusReminder() {
+    if (mascotBubble) mascotBubble.remove();
+    if (videoOverlay) videoOverlay.remove();
+    clearInterval(warningInterval);
+}
+
+// Function to monitor YouTube videos & reset warnings if a new task is set
 function monitorYouTube() {
-    chrome.storage.local.get("task", (data) => {
+    chrome.storage.local.get(["task", "lastTask", "disableWarnings"], (data) => {
         let task = data.task || "";
+        let lastTask = data.lastTask || "";
+        let disableWarnings = data.disableWarnings || false;
+
         if (!task) return;
 
-        console.log("User Task:", task);
-        console.log("Checking video relevance...");
-
-        let videoTitle = getYouTubeVideoTitle();
-        if (!videoTitle || videoTitle === lastCheckedTitle) {
-            return; // Avoid unnecessary checks if title hasn't changed
+        // 🛠️ If a new task is set, reset warnings!
+        if (task !== lastTask) {
+            console.log("🔄 New task detected! Resetting warnings.");
+            chrome.storage.local.set({ disableWarnings: false, lastTask: task });
+            warningCount = 0; // Reset warning count
         }
 
-        lastCheckedTitle = videoTitle; // Update last checked title
+        // 🚫 If warnings are disabled for this task, stop checking
+        if (disableWarnings) {
+            console.log("🚫 Warnings are disabled for this task.");
+            return;
+        }
+
+        let videoTitle = getYouTubeVideoTitle();
+        if (!videoTitle || videoTitle === lastCheckedTitle) return;
+        lastCheckedTitle = videoTitle;
 
         if (!isVideoRelated(task)) {
-            console.warn("❌ Unrelated video detected. Showing reminder...");
-            startWarningInterval(task); // Show reminders every minute & pause video
+            startWarningInterval(task);
         } else {
-            console.log("✅ Related video. Removing reminder.");
             removeFocusReminder();
         }
     });
 }
 
-// Run the check on YouTube every 30 seconds
+
+// Run the check on YouTube every 10 seconds
 if (window.location.hostname.includes("youtube.com")) {
-    setInterval(monitorYouTube, 30000);
+    setInterval(monitorYouTube, 10000);
 }

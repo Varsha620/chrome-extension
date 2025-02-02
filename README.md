@@ -1,47 +1,53 @@
-# [Project Name] 🎯
+# Mascot Reminder 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
-
-
-### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+### Team Name: Varsha Sabu
 
 ### Hosted Project Link
-[mention your project hosted project link here]
+[(https://github.com/Varsha620/chrome-extension)](https://github.com/Varsha620/chrome-extension)
 
 ### Project Description
-[2-3 lines about what your project does]
+The project mainly focuses on productivity and wellness. 
 
 ### The Problem statement
-[What ridiculous problem are you solving?]
+The major problem faced:
+-Mindless surfing or screen time
+-Burning out
+-Distractions(especially while watching youtube tutorials)
 
 ### The Solution
-[How are you solving it? Keep it fun!]
+**Introducing the mascots**:The mascots are there when you need them. They come up with:
+-Infinite wellness reminders(per hr)
+-Motivate you and keep up your spirit to complete the task
+-Stops you from doom-scrolling through youtube video when you have a task to complete
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- **Languages:** JavaScript, HTML, CSS  
+- **Frameworks & APIs:** Chrome Extensions API  
+- **Libraries:** None (Pure JavaScript!)  
+- **Tools:** VS Code, GitHub, Chrome DevTools 
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+1.Clone the Repository:
+    ```bash
+    git clone https://github.com/your-username/mascot-reminder.git
+    cd mascot-reminder
 
-# Run
-[commands]
+2.Load the Extension in Chrome:
+    -Open Chrome and go to chrome://extensions/.
+    -Enable Developer mode (toggle in the top right corner).
+    -Click Load unpacked and select the mascot-reminder directory.
+
+3.Set Your Task:
+    -Click on the extension icon in the Chrome toolbar.
+    -Enter your task in the input field and click Save Task.
+
 
 ### Project Documentation
 For Software:
@@ -60,40 +66,10 @@ For Software:
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
 
-For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Team](Add photo of your team here)
-
-
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- All contributions: Varsha Sabu
 
 ---
 Made with ❤️ at TinkerHub
