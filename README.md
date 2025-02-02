@@ -111,6 +111,11 @@ For Software:
 &nbsp;&nbsp;&nbsp;&nbsp;If the extension context is invalid (e.g., chrome.storage.local is unavailable), the extension logs a warning and skips encouragement messages.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;If the YouTube video title cannot be retrieved, the extension logs an error and skips focus reminders.<br/>
 
+### Project Demo
+# Video
+(https://drive.google.com/file/d/1ubDvOgeaWHqMeDh2V-bIKB5Gsuyx2wUG/view?usp=sharing)
+*Demo of the project with problem statement *
+
 
 ## Team Contributions
 - All contributions: Varsha Sabu
