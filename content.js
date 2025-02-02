@@ -95,7 +95,7 @@ const warningMessages = [
     "Nuhh uhhh! Focus Buddy 🫡",
     "Hey! This isn't part of your goal! 🤨",
     "Stay on track! Don't let distractions win! 🚀",
-    "Third warning! ❌ Click below to disable or continue."
+    "Distractions are for losers.Be a winner!🫡"
 ];
 
 // Function to reset warnings when a new task is set
@@ -127,7 +127,7 @@ function showThirdWarningBubble() {
     mascotBubble = document.createElement("div");
     mascotBubble.className = "mascot-bubble";
     mascotBubble.innerHTML = `
-        <p>⚠️ This is your third Warning! ❌Choose wisely!!</p>
+        <p>⚠️Warning!Change of Focus! ❌Choose wisely!!</p>
         <button id="disableWarnings" class="bubble-button">Disable Further Warnings</button>
         <button id="continueWarnings" class="bubble-button">Continue Reminders</button>
     `;

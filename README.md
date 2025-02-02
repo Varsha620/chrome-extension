@@ -19,8 +19,10 @@ The major problem faced:
 ### The Solution
 **Introducing the mascots**:The mascots are there when you need them. They come up with:
 -Infinite wellness reminders(per hr)
--Motivate you and keep up your spirit to complete the task
+-Motivate you and keep up your spirit to complete the task(every 30 min)
 -Stops you from doom-scrolling through youtube video when you have a task to complete
+    -Freezes the page for 15sec and sent warning msgs.
+    -Every third warning providing choice to "disable warnings" and "keep reminding".
 
 ## Technical Details
 ### Technologies/Components Used
