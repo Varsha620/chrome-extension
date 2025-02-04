@@ -61,11 +61,11 @@ For Software:
 ![Screenshot wellness-reminder](https://github.com/user-attachments/assets/87e4b346-3828-4751-9d0e-e12cb537ba13)
 *An example of wellness reminders generated every hour*
 
-![Screenshot warnings](https://github.com/user-attachments/assets/504e5a7e-d3e3-4f9c-8b56-73aca3cd4f10)
-*Freezing the screen with grayscale for abou 15s with warnings*
-
 ![Screenshot encouragements](https://github.com/user-attachments/assets/c4c24573-0fa5-443f-a1e4-7859d8e16079)
 *Frequent Encouragements given for task provided*
+
+![Screenshot warnings](https://github.com/user-attachments/assets/504e5a7e-d3e3-4f9c-8b56-73aca3cd4f10)
+*Freezing the screen with grayscale for abou 15s with warnings*
 
 ![Screenshot warning](https://github.com/user-attachments/assets/091f19fe-04a6-407e-aceb-d18f42876a16)
 *Every 3rd warning when an off-topic video is opened, provides with a choice to "disable warning" or "continue with the warnings"*
