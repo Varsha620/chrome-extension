@@ -62,7 +62,7 @@ const wellnessMessages = [
       
       const task = data.task || "your goal";
       const messages = [
-        `Hey! Finish "${task}" or no cookies! 🍪`,
+        `Hey! Finish "${task}" and enjoy guilt free! 🍪`,
         `Keep going! "${task}" is almost done! 🚀`,
         `Don't give up! Complete "${task}" and treat yourself! 🎉`
       ];
@@ -119,8 +119,17 @@ function getYouTubeVideoTitle() {
 // Function to check if the video is related to the user's task
 function isVideoRelated(task) {
     const videoTitle = getYouTubeVideoTitle();
-    return videoTitle ? videoTitle.includes(task.toLowerCase()) : false;
+    if (!videoTitle) return false;
+
+    // Define common stopwords to ignore
+    const stopwords = new Set(["i", "want", "to", "the", "a", "for", "and", "is", "on", "in", "of"]);
+
+    // Split task into words, filter out stopwords
+    const taskWords = task.toLowerCase().split(/\s+/).filter(word => !stopwords.has(word));
+
+    return taskWords.some(word => new RegExp(`\\b${word}\\b`, "i").test(videoTitle));
 }
+
 
 // Function to show the third warning bubble
 function showThirdWarningBubble() {
