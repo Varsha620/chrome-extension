@@ -1,38 +1,188 @@
+/* General Body and Container for Popup */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 280px; /* Wider for better content display */
+    padding: 15px;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+}
+
+.popup-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #5b46e0; /* A pleasant purple */
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+h2 {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="number"],
+select {
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn.primary {
+    background-color: #5b46e0; /* Purple for primary actions */
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #4a38b8;
+    transform: translateY(-1px);
+}
+
+.btn.secondary {
+    background-color: #6c757d; /* Grey for secondary actions */
+    color: white;
+}
+
+.btn.secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+.btn.danger {
+    background-color: #dc3545; /* Red for destructive/warning actions */
+    color: white;
+}
+
+.btn.danger:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Info Texts */
+.task-info, .warning-info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    padding: 8px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+/* Mascot and Bubble Styles (for content script) */
 #mascot {
     position: fixed;
-    top: 120px;
-    right: 10px;
-    width: 100px;
-    height: 100px;
-    background-image: url('icons/ghosty.png'); 
-    background-size: cover;
+    /* top and right will be handled by JS for drag/drop and saved position */
+    width: 80px; /* Slightly smaller default size */
+    height: 80px;
+    background-image: url('icons/ghosty.png');
+    background-size: contain; /* Changed to contain for better image scaling */
+    background-repeat: no-repeat;
     z-index: 9999;
-    pointer-events: none;  /* Allow clicking through the mascot */
-    animation: bounce 1s ease infinite; /* Example animation */
-  }
-  
-  @keyframes bounce {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-  }
+    pointer-events: auto;  /* Allow clicking/dragging the mascot */
+    animation: bounce 1s ease infinite;
+    cursor: grab; /* Indicate it's draggable */
+    transition: transform 0.1s ease-out; /* Smooth movement */
+}
+
+#mascot.dragging {
+    cursor: grabbing;
+    animation: none; /* Pause bounce animation while dragging */
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); } /* Slightly less bounce */
+}
 
 .mascot-bubble {
-  position: fixed;
-    top: 70px;
-    right: 60px;
+    position: fixed;
     background-color: #ffe47a;
-    color: black;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 16px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    color: #333; /* Darker text for readability */
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     z-index: 9998;
-  }
+    max-width: 250px; /* Limit bubble width */
+    text-align: center;
+    line-height: 1.4;
+    opacity: 0; /* Start hidden */
+    transform: translateY(10px) scale(0.9); /* Start slightly below and smaller */
+    animation: fadeInBubble 0.3s ease-out forwards;
+    /* Position will be set by JS dynamically relative to mascot */
+}
 
-  .bubble-button {
-    background-color: #ff5757; /* Red for warning */
-    color: white; /* White text */
+/* Bubble tail */
+.mascot-bubble::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 0;
+    border-color: #ffe47a transparent transparent transparent;
+    bottom: -10px; /* Position at the bottom of the bubble */
+    right: 20px; /* Align with mascot */
+}
+
+
+@keyframes fadeInBubble {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+.bubble-button {
+    background-color: #ff5757;
+    color: white;
     border: none;
     padding: 10px 15px;
     margin: 5px;
@@ -41,21 +191,37 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: block; /* Make buttons stack */
+    width: calc(100% - 10px); /* Adjust width for padding */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .bubble-button:hover {
-    background-color: #e04e4e; /* Slightly darker red on hover */
-    transform: scale(1.05); /* Subtle grow effect */
+    background-color: #e04e4e;
+    transform: translateY(-2px);
 }
 
 #continueWarnings {
-    background-color: #4CAF50; /* Green for continue */
+    background-color: #4CAF50;
 }
 
 #continueWarnings:hover {
-    background-color: #449d48; /* Slightly darker green on hover */
+    background-color: #449d48;
 }
 
-  
-  
+#snoozeWarnings {
+    background-color: #007bff; /* Blue for snooze */
+}
+
+#snoozeWarnings:hover {
+    background-color: #0056b3;
+}
+
+/* Video Overlay */
+#video-overlay {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    backdrop-filter: blur(5px); /* Add blur effect */
+    transition: opacity 0.3s ease-in-out;
+}
